@@ -1,5 +1,5 @@
 <template>
-  <div class="task">
+  <div class="task" :style="{backgroundColor: colour}">
     <div class="task-name">{{ name }}</div>
     <div class="task-delete" @click="$emit('delete', name)">
       <span class="icon is-medium">
@@ -13,8 +13,12 @@
 export default {
   props: {
     name: {
-      type: String,
+        type: String,
       required: true
+    },
+    colour: {
+      type: String,
+      required: false
     }
   }
 };
@@ -27,12 +31,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid $grey-lighter;
+  border-bottom: 1px solid rgba($black, 0.1);
   transition: background-color 0.1s ease-out;
-
-  &:hover {
-    background-color: transparentize($info, 0.97);
-  }
 
   &-name {
     padding: $size-6 0 $size-6 $size-6;

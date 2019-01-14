@@ -26,22 +26,29 @@
           </button>
         </div>
       </div>
-      <Task @delete="removeTask(task)" v-for="task in tasks" :key="task" :name="task"/>
+      <Task
+        @delete="removeTask(task)"
+        v-for="task in tasks"
+        :key="task.name"
+        :name="task.name"
+        :colour="task.colour"
+      />
     </div>
   </section>
 </template>
 
 <script>
+import colours from "@/assets/colours";
 import Task from "@/components/ToDoTask.vue";
 export default {
   name: "todo",
   components: {
     Task
   },
-
   data() {
     return {
       inputText: undefined,
+      colourIndex: undefined,
       tasks: new Array()
     };
   },
@@ -67,8 +74,16 @@ export default {
   },
   methods: {
     addTask(name) {
-      // Add defined task to the end of the 'tasks' array
-      this.tasks.push(name);
+      // Update colour index
+      this.colourIndex < colours.length - 1
+        ? this.colourIndex++
+        : (this.colourIndex = 0);
+
+      // Add new item to list
+      this.tasks.push({
+        name: name,
+        colour: colours[this.colourIndex]
+      });
 
       // Clear the task input field
       this.inputText = undefined;
