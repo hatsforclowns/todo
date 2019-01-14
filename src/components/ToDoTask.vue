@@ -16,6 +16,10 @@ export default {
       type: String,
       required: true
     },
+    isUser: {
+      type: Boolean,
+      default: true
+    },
     colour: {
       type: String,
       required: false

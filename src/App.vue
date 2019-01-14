@@ -12,14 +12,14 @@
                 class="input is-medium"
                 type="text"
                 placeholder="Add a task..."
-                @keyup.enter="addTask(inputText)"
+                @keyup.enter="addTask(inputText, 'user')"
               >
             </div>
             <div class="control">
               <button
                 type="submit"
                 class="button is-medium is-primary has-text-weight-semibold"
-                @click="addTask(inputText)"
+                @click="addTask(inputText, 'user')"
               >
                 <span class="icon is-medium">
                   <i class="mdi mdi-24px mdi-plus"></i>
@@ -89,26 +89,37 @@ export default {
   },
   mounted() {
     // Populate app with sample tasks
-    this.addTask("Dirty Bones");
-    this.addTask("Blanchette");
-    this.addTask("Chez Elles Bistroquet");
-    this.addTask("Sticky Wings");
-    this.addTask("Nha-Mor");
-    this.addTask("Yuu Kitchen");
-    this.addTask("E Pellicci");
-    this.addTask("Sushi Samba");
-    this.addTask("Ping Pong");
-    this.addTask("Madame D");
-    this.addTask("Azou");
-    this.addTask("Alto");
-    this.addTask("Passo");
-    this.addTask("Arancini Factory");
-    this.addTask("Flat Iron");
-    this.addTask("Lure Fish Kitchen");
-    this.addTask("Lord Palmerston");
+    this.addTask("Dirty Bones", false);
+    this.addTask("Blanchette", false);
+    this.addTask("Chez Elles Bistroquet", false);
+    this.addTask("Sticky Wings", false);
+    this.addTask("Nha-Mor", false);
+    this.addTask("Yuu Kitchen", false);
+    this.addTask("E Pellicci", false);
+    this.addTask("Sushi Samba", false);
+    this.addTask("Ping Pong", false);
+    this.addTask("Madame D", false);
+    this.addTask("Azou", false);
+    this.addTask("Alto", false);
+    this.addTask("Passo", false);
+    this.addTask("Arancini Factory", false);
+    this.addTask("Flat Iron", false);
+    this.addTask("Lure Fish Kitchen", false);
+    this.addTask("Lord Palmerston", false);
   },
   methods: {
-    addTask(name) {
+    addTask(name, isUser, err) {
+      // Warn user if task name is empty
+      if (!name) {
+        this.$snackbar.open({
+          message: `Task name can't be blank!`,
+          type: "is-warning",
+          position: "is-bottom"
+        });
+
+        err.preventDefault();
+      }
+
       // Update colour index
       this.colourIndex < colours.length - 1
         ? this.colourIndex++
@@ -119,6 +130,16 @@ export default {
         name: name,
         colour: colours[this.colourIndex]
       });
+
+      // Show snackbar for user-added tasks
+      if (isUser) {
+        this.$snackbar.open({
+          message: `${name} added`,
+          position: "is-bottom",
+          actionText: "Undo",
+          onAction: () => this.removeTask(name)
+        });
+      }
 
       // Clear the task input field
       this.inputText = undefined;
@@ -161,6 +182,9 @@ $mdi-font-path: "~@mdi/font/fonts";
 @import "~bulma/sass/elements/form";
 @import "~bulma/sass/elements/icon";
 @import "~bulma/sass/elements/button";
+
+@import "~bulma";
+@import "~buefy/src/scss/buefy";
 
 h1 {
   font-size: $size-1;
