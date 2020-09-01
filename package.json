@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@mdi/font": "^3.3.92",
-    "buefy": "^0.7.1",
+    "buefy": "^0.7.2",
     "bulma": "^0.7.2",
     "material-colors": "^1.2.6",
     "vue": "^2.6.11"
